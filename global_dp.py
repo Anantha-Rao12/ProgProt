@@ -117,7 +117,7 @@ def traceback(M,tracer,seq1,seq2):
 
     return score[0],alignment
 
-def plot_align_scores(M,seq1,seq2):
+def plot_globaldp_matrix(M,seq1,seq2):
 
 """ Plot the Global Alignment scores matrix """
 
