@@ -3,10 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def global_dp(seq1,seq2,gap_penalty):
+def global_dp(seq1,seq2,gap_penalty,DNA=True):
 
     m,n = len(seq1),len(seq2)
-    Sub_score = pd.read_csv('DNA_substitution_scores.csv',index_col='0')
+
+    if DNA == True : 
+        Sub_score = pd.read_csv('DNA_substitution_scores.csv',index_col='0')
+    else : 
+        Sub_score = pd.read_csv('blosum50.csv',index_col='0')
 
     M = np.zeros((m+1,n+1))  
     M[:,0] = gap_penalty*np.arange(0,m+1)
@@ -16,13 +20,15 @@ def global_dp(seq1,seq2,gap_penalty):
 
     for i in range(1,m+1):
         for j in range(1,n+1):
-            arr = np.array([M[i-1,j-1] + (S[seq1[i-1]][seq2[j-1]]), (M[i-1,j]+gap_penalty), (M[i,j-1]+gap_penalty)])
+            arr = np.array([M[i-1,j-1] + (Sub_score[seq1[i-1]][seq2[j-1]]), (M[i-1,j]+gap_penalty), (M[i,j-1]+gap_penalty)])
             M[i,j] = arr.max()
             tracer[i,j] = np.argmax(arr)+1
 
     return M, tracer
 
 def conv_list2str(list_obj) :
+""" Helper function to obtain alignment sequence """
+
     string = ''
     return string.join(list_obj)
 
@@ -62,6 +68,8 @@ def global_tracer(M,tracer,seq1,seq2):
 
 
 def traceback(M,tracer,seq1,seq2):
+
+""" Obtain Final score and Global ALignment """
 
     tm , tn = M.shape[0] -1 , M.shape[1] -1 
     score = [M[tm,tn]]
@@ -107,30 +115,40 @@ def traceback(M,tracer,seq1,seq2):
     alignment = alg1 + '\n' + alg2
 
 
-    return sum(score),alignment
+    return score[0],alignment
 
 def plot_align_scores(M,seq1,seq2):
+
+""" Plot the Global Alignment scores matrix """
 
     fig = plt.figure()
     ax = fig.add_axes([0.1,0.1,0.8,0.8])
 
     sns.heatmap(M,linewidth=0.9,ax=ax,annot=True)
-    ax.set_title('Global Alignment Scores',fontsize=14)
+    ax.set_title('Global Alignment Scores Matrix',fontsize=14)
     ax.set_xticklabels(['Gap']+[letter for letter in seq2],fontsize=10)
+    ax.set_xlabel('Sequence 2',fontsize=16)
     ax.xaxis.tick_top()
+
     ax.set_yticklabels(['Gap']+[letter for letter in seq1],fontsize=10, rotation=45)
+    ax.set_ylabel('Sequence 1',fontsize=16)
 
     return ax 
 
 def plot_global_tracer(T,seq1,seq2):
+
+""" Plot the global traceback route """
+
     fig = plt.figure()
     ax = fig.add_axes([0.1,0.1,0.8,0.8])
 
     sns.heatmap(T,linewidth=0.9,ax=ax)
-    ax.set_title('Traceback')
+    ax.set_title('Global Alignment Traceback')
     ax.set_xticklabels(['Gap']+[letter for letter in seq2],fontsize=10)
+    ax.set_xlabel('Sequence 2',fontsize=16)
     ax.xaxis.tick_top()
     ax.set_yticklabels(['Gap']+[letter for letter in seq1],fontsize=10, rotation=45)
+    ax.set_ylabel('Sequence 1',fontsize=16)
 
     return ax
 
