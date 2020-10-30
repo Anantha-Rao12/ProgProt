@@ -1,6 +1,13 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+def select_substitution_matrix(integer):
+    subs_dict = {1:'blosum62.csv',2:'blosum50.csv',3:'pam100.csv',4:'pam250.csv'}
+    if integer in subs_dict:
+        return subs_dict[integer]
+    else:
+        print('Input error!')
+
 def conv_list2str(list_obj) :
     """ Helper function to obtain alignment sequence """
 
@@ -37,7 +44,7 @@ def plot_tracer(T,seq1,seq2,Global):
     fig = plt.figure(figsize=(13,12))
     ax = fig.add_axes([0.1,0.1,0.8,0.8])
 
-    sns.heatmap(T,linewidth=0.9,ax=ax, cmap='gray',cbar=False)
+    sns.heatmap(T,linewidth=0.9,ax=ax, cmap='Spectral',cbar=False)
     if Global == True:
         ax.set_title('Global Alignment Traceback')
     else : 
