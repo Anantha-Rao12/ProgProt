@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from global_dp import *
+from helper_functions import *
 
 def local_dp(seq1,seq2,gap_penalty,DNA=True):
 
@@ -131,7 +131,7 @@ def main(M,tracer,seq1,seq2):
         print('\n')
         
         plot_tracer(T[:,:,counter],seq1,seq2,Global=False)
-
+    input('Press any key to look at the Matrix scores and the Traceback')
     plot_align_matrix(M,seq1,seq2,Global=False) 
     plt.show()
 
@@ -144,6 +144,7 @@ if __name__ == '__main__':
     if dna_or_protein == '1':
         seq1 = str(input('Enter DNA sequence 1:'))
         seq2 = str(input('Enter DNA sequence 2:'))
+        print()
 
         M,tracer = local_dp(seq1,seq2,gap_penalty=-6,DNA=True)
         main(M,tracer,seq1,seq2)   
@@ -151,6 +152,7 @@ if __name__ == '__main__':
     else : 
         seq1 = str(input('Enter Protein sequence 1:'))
         seq2 = str(input('Enter Protein sequence 2:'))
+        print()
 
         M,tracer = local_dp(seq1,seq2,gap_penalty=-6,DNA=False)
         main(M,tracer,seq1,seq2)
