@@ -4,24 +4,20 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from helper_functions import *
 
-def local_dp(seq1,seq2,gap_penalty,DNA=True):
+def local_dp(seq1,seq2,gap_penalty,sub_matrix,DNA=True):
 
     m,n = len(seq1),len(seq2)
-
-    if DNA == True : 
-        Sub_score = pd.read_csv('DNA_substitution_scores.csv',index_col='0')
-    else : 
-        Sub_score = pd.read_csv('blosum62.csv',index_col='0')
 
     M = np.zeros((m+1,n+1))  
     M[:,0] = 0*np.arange(0,m+1)
     M[0,:] = 0*np.arange(0,n+1)
 
+    sub_matrix = pd.read_csv(sub_matrix,index_col='0')
     tracer = np.zeros((M.shape[0],M.shape[1]))
 
     for i in range(1,m+1):
         for j in range(1,n+1):
-            arr = np.array([M[i-1,j-1] + (Sub_score[seq1[i-1]][seq2[j-1]]), (M[i-1,j]+gap_penalty), (M[i,j-1]+gap_penalty),0])
+            arr = np.array([M[i-1,j-1] + (sub_matrix[seq1[i-1]][seq2[j-1]]), (M[i-1,j]+gap_penalty), (M[i,j-1]+gap_penalty),0])
             M[i,j] = arr.max()
             tracer[i,j] = np.argmax(arr)+1
 
@@ -144,16 +140,22 @@ if __name__ == '__main__':
     if dna_or_protein == '1':
         seq1 = str(input('Enter DNA sequence 1:'))
         seq2 = str(input('Enter DNA sequence 2:'))
+        g = int(input('Enter the Gap Penalty (preferably an integer):'))
         print()
 
-        M,tracer = local_dp(seq1,seq2,gap_penalty=-6,DNA=True)
+
+        M,tracer = local_dp(seq1,seq2,g,sub_matrix='DNA_substitution_scores.csv' ,DNA=True)
         main(M,tracer,seq1,seq2)   
 
     else : 
         seq1 = str(input('Enter Protein sequence 1:'))
         seq2 = str(input('Enter Protein sequence 2:'))
+        g = int(input('Enter the Gap Penalty (preferably an integer):'))
+        sub_matrix = int(input('Which Substitution matrix do you want to use?\n Press 1 for blosum62 \n Press 2 for blosum50 \n Press 3 for PAM100 \n Press 4 for PAM250 \n'))
+        subs_matrix = select_substitution_matrix(sub_matrix)
+
         print()
 
-        M,tracer = local_dp(seq1,seq2,gap_penalty=-6,DNA=False)
+        M,tracer = local_dp(seq1,seq2,g,subs_matrix,DNA=False)
         main(M,tracer,seq1,seq2)
             
