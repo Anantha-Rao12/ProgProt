@@ -30,6 +30,8 @@ def local_dp(seq1,seq2,gap_penalty,DNA=True):
 def local_tracer(M,tracer):
     
     ### Get a list of indices with top scores
+    ### Returns a tensor of traceback routes
+
     h_rowid , h_colid = np.where(M==M.max())
     h_idx = list(zip(h_rowid,h_colid))
 
@@ -103,6 +105,12 @@ def local_traceback(M,tracer,seq1,seq2):
                 align1.append('-')
                 tn -= 1 
 
+        if M[tm,tn] == 0 : 
+            align1.append(seq1[tm-1])
+            align2.append(seq2[tn-1])
+        else:
+            pass
+
         alg1 = conv_list2str(align1[::-1])
         alg2 = conv_list2str(align2[::-1])
         alignment = alg1 + '\n' + alg2
@@ -113,7 +121,7 @@ def local_traceback(M,tracer,seq1,seq2):
 
 def main(M,tracer,seq1,seq2):
     T = local_tracer(M,tracer)
-            
+    print(tracer)
     local_alignments = local_traceback(M,tracer,seq1,seq2)
     print('\n')
 
@@ -122,6 +130,7 @@ def main(M,tracer,seq1,seq2):
         print('Score:',sum(alignment[0]))
         print(alignment[1])
         print('\n')
+        
         plot_tracer(T[:,:,counter],seq1,seq2,Global=False)
 
     plot_align_matrix(M,seq1,seq2,Global=False) 
@@ -137,13 +146,13 @@ if __name__ == '__main__':
         seq1 = str(input('Enter DNA sequence 1:'))
         seq2 = str(input('Enter DNA sequence 2:'))
 
-        M,tracer = local_dp(seq1,seq2,gap_penalty=-2,DNA=True)
+        M,tracer = local_dp(seq1,seq2,gap_penalty=-6,DNA=True)
         main(M,tracer,seq1,seq2)   
 
     else : 
         seq1 = str(input('Enter Protein sequence 1:'))
         seq2 = str(input('Enter Protein sequence 2:'))
 
-        M,tracer = local_dp(seq1,seq2,gap_penalty=-2,DNA=False)
+        M,tracer = local_dp(seq1,seq2,gap_penalty=-6,DNA=False)
         main(M,tracer,seq1,seq2)
             
