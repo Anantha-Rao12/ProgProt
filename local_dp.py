@@ -121,7 +121,6 @@ def local_traceback(M,tracer,seq1,seq2):
 
 def main(M,tracer,seq1,seq2):
     T = local_tracer(M,tracer)
-    print(tracer)
     local_alignments = local_traceback(M,tracer,seq1,seq2)
     print('\n')
 
