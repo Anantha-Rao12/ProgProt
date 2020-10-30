@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from helper_functions import *
 
 def global_dp(seq1,seq2,gap_penalty,DNA=True):
 
@@ -26,13 +27,7 @@ def global_dp(seq1,seq2,gap_penalty,DNA=True):
 
     return M, tracer
 
-def conv_list2str(list_obj) :
-    """ Helper function to obtain alignment sequence """
-
-    string = ''
-    return string.join(list_obj)
-
-def global_tracer(M,tracer,seq1,seq2):
+def global_tracer(M,tracer):
 
     ### Obtain Global traceback route
 
@@ -67,7 +62,7 @@ def global_tracer(M,tracer,seq1,seq2):
     return global_traceback 
 
 
-def traceback(M,tracer,seq1,seq2):
+def global_traceback(M,tracer,seq1,seq2):
 
     """ Obtain Final score and Global ALignment """
 
@@ -117,45 +112,42 @@ def traceback(M,tracer,seq1,seq2):
 
     return score[0],alignment
 
-def plot_align_matrix(M,seq1,seq2,Global):
+def main(M,tracer,seq1,seq2):
+    T = global_tracer(M,tracer)
+    score,g_alignment = global_traceback(M,tracer,seq1,seq2)
+    print('\n')
 
-    """ Plot the Global Alignment scores matrix """
+    print('Best Alignment')
+    print('Score:',score)
+    print(g_alignment)
+    print('\n')
 
-    fig = plt.figure(figsize=(13,12))
-    ax = fig.add_axes([0.1,0.1,0.8,0.8])
+    input('Press any key to look at the Matrix scores and the Traceback')
+   
+    plot_tracer(T,seq1,seq2,Global=True)
 
-    sns.heatmap(M,linewidth=0.9,ax=ax,annot=True)
-    if Global == True:
-        ax.set_title('Global Alignment Score Matrix')
+    plot_align_matrix(M,seq1,seq2,Global=True) 
+    plt.show()
+
+
+if __name__ == '__main__':
+    
+    input('Welcome to Global Sequence Alignment \n Press any key to continue')
+    dna_or_protein = str(input('Do you want to align a DNA or Protein sequence ? \n Press 1 for DNA \n Press 2 for Protein:\n' ))
+
+    if dna_or_protein == '1':
+        seq1 = str(input('Enter DNA sequence 1:'))
+        seq2 = str(input('Enter DNA sequence 2:'))
+        print()
+
+        M,tracer = global_dp(seq1,seq2,gap_penalty=-6,DNA=True)
+        main(M,tracer,seq1,seq2)   
+
     else : 
-        ax.set_title('Local Alignment Score Matrix')
+        seq1 = str(input('Enter Protein sequence 1:'))
+        seq2 = str(input('Enter Protein sequence 2:'))
+
+        M,tracer = global_dp(seq1,seq2,gap_penalty=-6,DNA=False)
+        main(M,tracer,seq1,seq2)
+        print()
  
-    ax.set_xticklabels(['Gap']+[letter for letter in seq2],fontsize=10)
-    ax.set_xlabel('Sequence 2',fontsize=16)
-    ax.xaxis.tick_top()
-
-    ax.set_yticklabels(['Gap']+[letter for letter in seq1],fontsize=10, rotation=45)
-    ax.set_ylabel('Sequence 1',fontsize=16)
-
-    return ax 
-
-def plot_tracer(T,seq1,seq2,Global):
-
-    """ Plot the traceback route """
-
-    fig = plt.figure(figsize=(13,12))
-    ax = fig.add_axes([0.1,0.1,0.8,0.8])
-
-    sns.heatmap(T,linewidth=0.9,ax=ax)
-    if Global == True:
-        ax.set_title('Global Alignment Traceback')
-    else : 
-        ax.set_title('Local Alignment Traceback')
-    ax.set_xticklabels(['Gap']+[letter for letter in seq2],fontsize=10)
-    ax.set_xlabel('Sequence 2',fontsize=16)
-    ax.xaxis.tick_top()
-    ax.set_yticklabels(['Gap']+[letter for letter in seq1],fontsize=10, rotation=45)
-    ax.set_ylabel('Sequence 1',fontsize=16)
-
-    return ax
-
