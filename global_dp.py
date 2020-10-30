@@ -126,9 +126,9 @@ def plot_align_matrix(M,seq1,seq2,Global):
 
     sns.heatmap(M,linewidth=0.9,ax=ax,annot=True)
     if Global == True:
-        ax.set_title('Global Alignment Traceback')
+        ax.set_title('Global Alignment Score Matrix')
     else : 
-        ax.set_title('Local Alignment Traceback')
+        ax.set_title('Local Alignment Score Matrix')
  
     ax.set_xticklabels(['Gap']+[letter for letter in seq2],fontsize=10)
     ax.set_xlabel('Sequence 2',fontsize=16)

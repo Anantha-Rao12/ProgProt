@@ -27,13 +27,18 @@ def local_dp(seq1,seq2,gap_penalty,DNA=True):
 
     return M, tracer
 
-def local_tracer(M,tracer,seq1,seq2):
+def local_tracer(M,tracer):
+    
+    ### Get a list of indices with top scores
+    h_rowid , h_colid = np.where(M==M.max())
+    h_idx = list(zip(h_rowid,h_colid))
 
-### Obtain Local traceback route
+    local_traceback_tensor = np.zeros((M.shape[0],M.shape[1],len(h_idx))) # Initialize a zeros tensor
 
-    if np.count_nonzero(M==M.max()) == 1 :  
+    for counter,idx in enumerate(h_idx) : 
         l_traceback = np.zeros((M.shape)) # Initialize route matrix
-        tm,tn = np.unravel_index(M.argmax(), M.shape) # find the cell with highest score
+
+        tm,tn = idx # find the cell with highest score
         l_traceback[tm,tn] = 1
         current_cell = (tm,tn)
 
@@ -52,52 +57,76 @@ def local_tracer(M,tracer,seq1,seq2):
                 current_cell = (tm,tn-1)
                 l_traceback[current_cell] = 1
                 tn -= 1 
-    else:
-        print('NOTE : Multiple Local alignments possible') 
-        
-        l_traceback = np.zeros((M.shape)) # Initialize route matrix
+        local_traceback_tensor[:,:,counter] = l_traceback
 
-    return l_traceback 
+    return local_traceback_tensor
 
 def local_traceback(M,tracer,seq1,seq2):
 
-    """ Obtain Final score and Global ALignment """
+    ### Get a list of indices with top scores
+    h_rowid , h_colid = np.where(M==M.max())
+    h_idx = list(zip(h_rowid,h_colid))
     
-    tm,tn = np.unravel_index(M.argmax(), M.shape) 
-    score = [M[tm,tn]]
-    align1 = []
-    align2 = []
+    if len(h_idx) == 1:
+        print('Found One Best Local alignment')
+    else:
+        print('NOTE : Multiple Local alignments possible. Suspect maximum of ', len(h_idx)) 
+   
+    local_alignments = []  # list to store all possible local alignments
 
-    current_cell = (tm,tn)
+    for counter, idx in enumerate(h_idx):
+        tm,tn = idx
+        score = [M[tm,tn]]
+        align1,align2 = [],[]
+        current_cell = (tm,tn)
 
-    while M[tm,tn] > 0 : 
-        if tracer[current_cell] == 1: 
-            current_cell = (tm-1,tn-1)
-            score.append(M[current_cell])
-            align1.append(seq1[tm-1])
-            align2.append(seq2[tn-1])
+        while M[tm,tn] > 0 : 
+            if tracer[current_cell] == 1: 
+                current_cell = (tm-1,tn-1)
+                score.append(M[current_cell])
+                align1.append(seq1[tm-1])
+                align2.append(seq2[tn-1])
 
-            tm -= 1 ; tn -= 1
+                tm -= 1 ; tn -= 1
+                
+            elif tracer[current_cell] == 2 :
+                current_cell = (tm-1,tn)
+                score.append(M[current_cell])
+                align2.append('-')
+                align1.append(seq1[tm-1])
+                tm -= 1
+
+            elif tracer[current_cell] == 3:
+                current_cell = (tm,tn-1)
+                score.append(M[current_cell])
+                align2.append(seq2[tn-1])
+                align1.append('-')
+                tn -= 1 
+
+        alg1 = conv_list2str(align1[::-1])
+        alg2 = conv_list2str(align2[::-1])
+        alignment = alg1 + '\n' + alg2
+
+        local_alignments.append((score,alignment))
+
+    return local_alignments
+
+def main(M,tracer,seq1,seq2):
+    T = local_tracer(M,tracer)
             
-        elif tracer[current_cell] == 2 :
-            current_cell = (tm-1,tn)
-            score.append(M[current_cell])
-            align2.append('-')
-            align1.append(seq1[tm-1])
-            tm -= 1
+    local_alignments = local_traceback(M,tracer,seq1,seq2)
+    print('\n')
 
-        elif tracer[current_cell] == 3:
-            current_cell = (tm,tn-1)
-            score.append(M[current_cell])
-            align2.append(seq2[tn-1])
-            align1.append('-')
-            tn -= 1 
+    for counter,alignment in enumerate(local_alignments) : 
+        print('Alignment no',counter+1)
+        print('Score:',sum(alignment[0]))
+        print(alignment[1])
+        print('\n')
+        plot_tracer(T[:,:,counter],seq1,seq2,Global=False)
 
-    alg1 = conv_list2str(align1[::-1])
-    alg2 = conv_list2str(align2[::-1])
-    alignment = alg1 + '\n' + alg2
+    plot_align_matrix(M,seq1,seq2,Global=False) 
+    plt.show()
 
-    return score[0],alignment
 
 if __name__ == '__main__':
     
@@ -107,35 +136,14 @@ if __name__ == '__main__':
     if dna_or_protein == '1':
         seq1 = str(input('Enter DNA sequence 1:'))
         seq2 = str(input('Enter DNA sequence 2:'))
+
         M,tracer = local_dp(seq1,seq2,gap_penalty=-2,DNA=True)
-        T = local_tracer(M,tracer,seq1,seq2)
-        
-        score, algn = local_traceback(M,tracer,seq1,seq2)
-        print('Score',score)
-        print('Local Alignment for the sequences:\n')
-        print(algn)
-        
-        plot_align_matrix(M,seq1,seq2,Global=False) 
-        plot_tracer(T,seq1,seq2,Global=False) 
-        
-        plt.show()
-        
+        main(M,tracer,seq1,seq2)   
 
     else : 
         seq1 = str(input('Enter Protein sequence 1:'))
         seq2 = str(input('Enter Protein sequence 2:'))
 
         M,tracer = local_dp(seq1,seq2,gap_penalty=-2,DNA=False)
-        T = local_tracer(M,tracer,seq1,seq2)
-        
-        score, algn = local_traceback(M,tracer,seq1,seq2)
-        print('Score',score)
-        print('Local Alignment for the sequences:\n')
-        print(algn)
-        
-        plot_align_matrix(M,seq1,seq2,Global=False) 
-        plot_tracer(T,seq1,seq2,Global=False) 
-        
-        plt.show()
-    
-    
+        main(M,tracer,seq1,seq2)
+            
