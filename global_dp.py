@@ -121,7 +121,7 @@ def plot_align_matrix(M,seq1,seq2,Global):
 
     """ Plot the Global Alignment scores matrix """
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(13,12))
     ax = fig.add_axes([0.1,0.1,0.8,0.8])
 
     sns.heatmap(M,linewidth=0.9,ax=ax,annot=True)
@@ -143,7 +143,7 @@ def plot_tracer(T,seq1,seq2,Global):
 
     """ Plot the traceback route """
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(13,12))
     ax = fig.add_axes([0.1,0.1,0.8,0.8])
 
     sns.heatmap(T,linewidth=0.9,ax=ax)
