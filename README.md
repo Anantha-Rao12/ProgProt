@@ -35,18 +35,18 @@ Comparison between Smith-Waterman and Needleman-Wunsch :
 
 2. Create a Python (>=3.2) virtual environemnt and call it 'bioinfo-BIO314'.
 
-    - Linux: `python3 -m venv bioinfo-BIO314`
+    - Linux/Mac: `python3 -m venv bioinfo-BIO314`
     - Windows: `python -m venv bioinfo-BIO314`
     - A new directory called "bioinfo-BIO314" will be created.
 
 3. Activate the Virtual Environment by running the following.
 
-    - Linux: `source delema_detect/bin/activate`
+    - Linux/Mac: `source delema_detect/bin/activate`
     - Windows: `.\delema_detect\Scripts\activate`
 
-In the new virtual environemnt , run `pip3 install -r requirements.txt` to install all dependencies. On Windows, pip3 will be replaced by pip.
+4. In the new virtual environemnt , run `pip3 install -r requirements.txt` to install all dependencies. On Windows, pip3 will be replaced by pip.
 
-4. Run `python3 global_dp.py` for GLobal Alignment or run `python3 local_dp.py` for Local Alignment. 
+5. Run `python3 global_dp.py` for Global Alignment or run `python3 local_dp.py` for Local Alignment. 
     
 
 
