@@ -25,9 +25,30 @@ Comparison between Smith-Waterman and Needleman-Wunsch :
 | Traceback | 	Begin with the highest score, end when 0 is encountered | Begin with the cell at the lower right of the matrix, end at top left cell |
 
 
+## How to run these scripts locally ? 
+
+
+1. Clone this Github repository using `git clone https://github.com/Anantha-Rao12/Bioinformatics-BIO314`
+
+2. Create a Python (>=3.2) virtual environemnt and call it 'delema_detect'.
+
+    Linux: `python3 -m venv bioinfo-BIO314`
+    Windows: `python -m venv bioinfo-BIO314`
+
+A new directory called "bioinfo-BIO314" will be created.
+
+3. Activate the Virtual Environment by running the following.
+
+Linux: `source delema_detect/bin/activate`
+Windows: `.\delema_detect\Scripts\activate`
+
+In the new virtual environemnt , run `pip3 install -r requirements.txt` to install all dependencies. On Windows, pip3 will be replaced by pip.
+
+4. Run `python3 global_dp.py` for GLobal Alignment or run `python3 local_dp.py` for Local ALignment. 
+    
 
 
 # References : 
 
-1. https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm
+1. [Smith-Waterman Algorithm](https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm)
 2. Durbin, R. (1998). Biological Sequence Analysis: Probabilistic Models of Proteins and Nucleic Acids (Illustrated ed.). Cambridge University Press. 
