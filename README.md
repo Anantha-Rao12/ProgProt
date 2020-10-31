@@ -28,23 +28,25 @@ Comparison between Smith-Waterman and Needleman-Wunsch :
 ## How to run these scripts locally ? 
 
 
-1. Clone this Github repository using `git clone https://github.com/Anantha-Rao12/Bioinformatics-BIO314`
+1. Clone this Github repository using 
 
-2. Create a Python (>=3.2) virtual environemnt and call it 'delema_detect'.
+```git clone https://github.com/Anantha-Rao12/Bioinformatics-BIO314```
 
-    Linux: `python3 -m venv bioinfo-BIO314`
-    Windows: `python -m venv bioinfo-BIO314`
 
-A new directory called "bioinfo-BIO314" will be created.
+2. Create a Python (>=3.2) virtual environemnt and call it 'bioinfo-BIO314'.
+
+    - Linux: `python3 -m venv bioinfo-BIO314`
+    - Windows: `python -m venv bioinfo-BIO314`
+    - A new directory called "bioinfo-BIO314" will be created.
 
 3. Activate the Virtual Environment by running the following.
 
-Linux: `source delema_detect/bin/activate`
-Windows: `.\delema_detect\Scripts\activate`
+    - Linux: `source delema_detect/bin/activate`
+    - Windows: `.\delema_detect\Scripts\activate`
 
 In the new virtual environemnt , run `pip3 install -r requirements.txt` to install all dependencies. On Windows, pip3 will be replaced by pip.
 
-4. Run `python3 global_dp.py` for GLobal Alignment or run `python3 local_dp.py` for Local ALignment. 
+4. Run `python3 global_dp.py` for GLobal Alignment or run `python3 local_dp.py` for Local Alignment. 
     
 
 
