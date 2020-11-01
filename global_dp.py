@@ -137,7 +137,7 @@ if __name__ == '__main__':
         seq1 = str(input('Enter DNA sequence 1:'))
         seq2 = str(input('Enter DNA sequence 2:'))
         g = int(input('Enter the Gap Penalty (preferably an integer):'))
-        plot = int(input('Plot the scores and traceback ? \n Press 1 for Yes \n Pres 2 for No'))
+        plot = int(input('Plot the scores and traceback ? \n Press 1 for Yes \n Press 2 for No\n'))
         print()
         
         M,tracer = global_dp(seq1,seq2,gap_penalty=g,sub_matrix='DNA_substitution_scores.csv',DNA=True)
