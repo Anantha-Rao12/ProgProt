@@ -52,5 +52,5 @@ Comparison between Smith-Waterman and Needleman-Wunsch :
 
 # References : 
 
-1. [Smith-Waterman Algorithm](https://en.wikipedia.org/wiki/Smith%E2%80%93Waterman_algorithm)
+1. Sean, R. (2004). EDDY: What is dynamic programming. Nature biotechnology, 22(7), 909-910.
 2. Durbin, R. (1998). Biological Sequence Analysis: Probabilistic Models of Proteins and Nucleic Acids (Illustrated ed.). Cambridge University Press. 
