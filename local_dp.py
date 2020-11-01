@@ -101,11 +101,11 @@ def local_traceback(M,tracer,seq1,seq2):
                 align1.append('-')
                 tn -= 1 
 
-        if M[tm,tn] == 0 : 
-            align1.append(seq1[tm-1])
-            align2.append(seq2[tn-1])
-        else:
-            pass
+        # if M[tm,tn] == 0 : 
+        #     align1.append(seq1[tm-1])
+        #     align2.append(seq2[tn-1])
+        # else:
+        #     pass
 
         alg1 = conv_list2str(align1[::-1])
         alg2 = conv_list2str(align2[::-1])
@@ -115,7 +115,7 @@ def local_traceback(M,tracer,seq1,seq2):
 
     return local_alignments
 
-def main(M,tracer,seq1,seq2):
+def main(M,tracer,seq1,seq2,plot):
     T = local_tracer(M,tracer)
     local_alignments = local_traceback(M,tracer,seq1,seq2)
     print('\n')
@@ -126,10 +126,15 @@ def main(M,tracer,seq1,seq2):
         print(alignment[1])
         print('\n')
         
-        plot_tracer(T[:,:,counter],seq1,seq2,Global=False)
-    input('Press any key to look at the Matrix scores and the Traceback')
-    plot_align_matrix(M,seq1,seq2,Global=False) 
-    plt.show()
+        plot_tracer(T[:,:,counter],seq1,seq2,Global=False) if plot == 1 else 0
+
+    if plot == 1 : 
+        input('Press any key to look at the Matrix scores and the Traceback')
+        plot_align_matrix(M,seq1,seq2,Global=False) 
+        plt.show()
+
+    else :
+        pass
 
 
 if __name__ == '__main__':
@@ -141,11 +146,12 @@ if __name__ == '__main__':
         seq1 = str(input('Enter DNA sequence 1:'))
         seq2 = str(input('Enter DNA sequence 2:'))
         g = int(input('Enter the Gap Penalty (preferably an integer):'))
+        plot = int(input('Plot the scores and traceback ? \n Press 1 for Yes \n Press 2 for No\n'))
         print()
 
 
         M,tracer = local_dp(seq1,seq2,g,sub_matrix='DNA_substitution_scores.csv' ,DNA=True)
-        main(M,tracer,seq1,seq2)   
+        main(M,tracer,seq1,seq2,plot)   
 
     else : 
         seq1 = str(input('Enter Protein sequence 1:'))
@@ -153,9 +159,9 @@ if __name__ == '__main__':
         g = int(input('Enter the Gap Penalty (preferably an integer):'))
         sub_matrix = int(input('Which Substitution matrix do you want to use?\n Press 1 for blosum62 \n Press 2 for blosum50 \n Press 3 for PAM100 \n Press 4 for PAM250 \n'))
         subs_matrix = select_substitution_matrix(sub_matrix)
-
+        plot = int(input('Plot the scores and traceback ? \n Press 1 for Yes \n Press 2 for No \n'))
         print()
 
         M,tracer = local_dp(seq1,seq2,g,subs_matrix,DNA=False)
-        main(M,tracer,seq1,seq2)
+        main(M,tracer,seq1,seq2,plot)
             
