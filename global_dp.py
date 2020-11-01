@@ -109,7 +109,7 @@ def global_traceback(M,tracer,seq1,seq2):
 
     return score[0],alignment
 
-def main(M,tracer,seq1,seq2):
+def main(M,tracer,seq1,seq2,plot):
     T = global_tracer(M,tracer)
     score,g_alignment = global_traceback(M,tracer,seq1,seq2)
     print('\n')
@@ -118,13 +118,14 @@ def main(M,tracer,seq1,seq2):
     print('Score:',score)
     print(g_alignment)
     print('\n')
-
-    input('Press any key to look at the Matrix scores and the Traceback')
-   
-    plot_tracer(T,seq1,seq2,Global=True)
-
-    plot_align_matrix(M,seq1,seq2,Global=True) 
-    plt.show()
+    
+    if plot == 1:
+        input('Press any key to look at the Matrix scores and the Traceback')
+        plot_tracer(T,seq1,seq2,Global=True)
+        plot_align_matrix(M,seq1,seq2,Global=True) 
+        plt.show()
+    else : 
+        pass
 
 
 if __name__ == '__main__':
@@ -136,10 +137,12 @@ if __name__ == '__main__':
         seq1 = str(input('Enter DNA sequence 1:'))
         seq2 = str(input('Enter DNA sequence 2:'))
         g = int(input('Enter the Gap Penalty (preferably an integer):'))
+        plot = int(input('Plot the scores and traceback ? \n Press 1 for Yes \n Pres 2 for No'))
         print()
         
         M,tracer = global_dp(seq1,seq2,gap_penalty=g,sub_matrix='DNA_substitution_scores.csv',DNA=True)
-        main(M,tracer,seq1,seq2)   
+        main(M,tracer,seq1,seq2,plot)
+
 
     else : 
         seq1 = str(input('Enter Protein sequence 1:'))
@@ -147,9 +150,10 @@ if __name__ == '__main__':
         g = int(input('Enter the Gap Penalty (preferably an integer):'))
         sub_matrix = int(input('Which Substitution matrix do you want to use?\n Press 1 for blosum62 \n Press 2 for blosum50 \n Press 3 for PAM100 \n Press 4 for PAM250 \n'))
         subs_matrix = select_substitution_matrix(sub_matrix)
+        plot = int(input('Plot the scores and traceback ? \n Press 1 for Yes \n Press 2 for No\n'))
         print()
 
         M,tracer = global_dp(seq1,seq2,gap_penalty=g,sub_matrix=subs_matrix,DNA=False)
-        main(M,tracer,seq1,seq2)
+        main(M,tracer,seq1,seq2,plot)
         print()
  
