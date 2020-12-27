@@ -25,6 +25,11 @@ Comparison between Smith-Waterman and Needleman-Wunsch :
 | Traceback | 	Begin with the highest score, end when 0 is encountered | Begin with the cell at the lower right of the matrix, end at top left cell |
 
 
+## Next Generation Sequencing (NGS)
+
+- The advent of NGS techniques has led to wonderful application of the [Burrows–Wheeler transformation](https://en.wikipedia.org/wiki/Burrows%E2%80%93Wheeler_transform). In NGS, DNA is fragmented into small pieces, of which the first few bases are sequenced, yielding several millions of "reads", each 30 to 500 base pairs ("DNA characters") long
+- In an effort to reduce the memory requirement for sequence alignment, we use BWT as a data-compression-algorithm.
+
 ## How to run these scripts locally ? 
 
 
