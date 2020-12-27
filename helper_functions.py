@@ -19,7 +19,7 @@ def plot_align_matrix(M,seq1,seq2,Global):
 
     """ Plot the Global Alignment scores matrix """
 
-    fig = plt.figure(figsize=(15,14))
+    fig = plt.figure(figsize=(30,26),dpi=65)
     ax = fig.add_axes([0.1,0.1,0.8,0.8])
 
     sns.heatmap(M,linewidth=0.9,ax=ax,annot=True,cmap='magma',fmt='.3g')
@@ -41,10 +41,10 @@ def plot_tracer(T,seq1,seq2,Global):
 
     """ Plot the traceback route """
 
-    fig = plt.figure(figsize=(13,12))
+    fig = plt.figure(figsize=(30,26))
     ax = fig.add_axes([0.1,0.1,0.8,0.8])
 
-    sns.heatmap(T,linewidth=0.9,ax=ax, cmap='Spectral',cbar=False)
+    sns.heatmap(T,linewidth=0.9,ax=ax, cmap='coolwarm',cbar=False)
     if Global == True:
         ax.set_title('Global Alignment Traceback')
     else : 

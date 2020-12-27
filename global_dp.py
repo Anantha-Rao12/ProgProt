@@ -107,7 +107,7 @@ def global_traceback(M,tracer,seq1,seq2):
     alignment = alg1 + '\n' + alg2
 
 
-    return score[0],alignment
+    return np.sum(score),alignment
 
 def main(M,tracer,seq1,seq2,plot):
     T = global_tracer(M,tracer)

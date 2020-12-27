@@ -150,7 +150,7 @@ if __name__ == '__main__':
         print()
 
 
-        M,tracer = local_dp(seq1,seq2,g,sub_matrix='DNA_substitution_scores.csv' ,DNA=True)
+        M,tracer = local_dp(seq1,seq2,g,sub_matrix='DNA_identity_scores.csv' ,DNA=True)
         main(M,tracer,seq1,seq2,plot)   
 
     else : 
