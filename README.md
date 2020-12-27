@@ -41,8 +41,8 @@ Comparison between Smith-Waterman and Needleman-Wunsch :
 
 3. Activate the Virtual Environment by running the following.
 
-    - Linux/Mac: `source delema_detect/bin/activate`
-    - Windows: `.\delema_detect\Scripts\activate`
+    - Linux/Mac: `source bioinfo-BIO314/bin/activate`
+    - Windows: `.\bioinfo-BIO314\Scripts\activate`
 
 4. In the new virtual environemnt , run `pip3 install -r requirements.txt` to install all dependencies. On Windows, pip3 will be replaced by pip.
 
