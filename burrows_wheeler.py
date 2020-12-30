@@ -10,7 +10,7 @@ class BWT:
         self.length = len(self.string)
         self.processed_length = len(self.processed_string)
 
-    def permute_matrix(self,lexical_sort) -> np.ndarray:
+    def bwt_matrix(self,lexical_sort) -> np.ndarray:
         """Return the permuted matrix for the given string"""
         m = self.processed_length
         char_list = [i for i in self.processed_string]
@@ -35,7 +35,7 @@ class BWT:
 
     def bwt(self):
 
-        p_mat = self.permute_matrix(lexical_sort=True)
+        p_mat = self.bwt_matrix(lexical_sort=True)
         bwt_char = [word[0][-1] for word in p_mat]
         bwt = ''.join(bwt_char)
 
