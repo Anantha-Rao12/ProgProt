@@ -1,6 +1,6 @@
 # Bioinformatics
 
-This repository contains scripts and programs that is being used for the BIO314 course at IISER Pune. Some scripts were assignments where as most of the other ones were written solely with the joy of writing it. Some important concepts covered ans implemented were : 
+This repository contains scripts and programs that was used for the BIO314 course at IISER Pune. Some scripts were assignments whereas most of the other ones were written solely for the joy of writing it. Some important concepts covered are implemented were : 
 
 ## Biological Sequence Alignment 
 
@@ -29,6 +29,12 @@ Comparison between Smith-Waterman and Needleman-Wunsch :
 
 - The advent of NGS techniques has led to wonderful application of the [Burrows–Wheeler transformation](https://en.wikipedia.org/wiki/Burrows%E2%80%93Wheeler_transform). In NGS, DNA is fragmented into small pieces, of which the first few bases are sequenced, yielding several millions of "reads", each 30 to 500 base pairs ("DNA characters") long
 - In an effort to reduce the memory requirement for sequence alignment, we use BWT as a data-compression-algorithm.
+
+## Hidden Markov Models (HMM) 
+
+- Evaluation (Forward Algorithm)
+- Decoding (Vitterbi Algorithm)
+- Learning (Baum-Welch Algorithm or the Forward-Backward algorithm) (TBA)
 
 ## How to run these scripts locally ? 
 
