@@ -1,6 +1,6 @@
-# Bioinformatics
+# ProgProt (Programming proteins with python)
 
-This repository contains scripts and programs that was used for the BIO314 course at IISER Pune. Some scripts were assignments whereas most of the other ones were written solely for the joy of writing it. Some important concepts covered are implemented were : 
+This repository contains scripts and programs that were initially used for the BIO314 course at IISER Pune. Some scripts were assignments whereas most of the other ones were written solely for the joy of writing and discovery. Some important concepts covered are: 
 
 ## Biological Sequence Alignment 
 
